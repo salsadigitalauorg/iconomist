@@ -2,6 +2,8 @@
 
 /**
  * @file
+ * Contains main module hooks for iconomist module.
+ *
  * Iconomist is module that allows you to add icons to your drupal site,
  * for example adding Apple touch icons for iPhone, iPad etc. Each device
  * supports a different size icon so the module allows you to upload multiple
