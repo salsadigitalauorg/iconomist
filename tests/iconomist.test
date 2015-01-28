@@ -1,0 +1,67 @@
+<?php
+
+/**
+ * @file
+ * Test Iconomist.
+ */
+
+class IconomistTestCase extends DrupalWebTestCase {
+
+  /**
+   * User with permission to add icons to theme.
+   *
+   * @var object
+   */
+  protected $privileged_user;
+
+  public static function getInfo() {
+    return array(
+      'name' => 'Iconomist',
+      'description' => 'Test creation of various date fields and widgets using Field UI.',
+      'group' => 'Iconomist',
+    );
+  }
+
+  protected function setUp() {
+    // Load the iconomist module.
+    parent::setUp('iconomist');
+
+    // Create and log in our privileged user.
+    $this->privileged_user = $this->drupalCreateUser(
+      array('administer themes')
+    );
+    $this->drupalLogin($this->privileged_user);
+  }
+
+  public function testIconomist() {
+    // Click 'Add Icon' button twice to allow for 2 icons to be added.
+    $this->drupalPost('admin/appearance/settings', array(), t('Add icon'));
+    $this->drupalPost(NULL, array(), t('Add icon'));
+
+    // Add apple touch icons.
+    $edit = array(
+      'files[iconomist_icons_0_upload]' => drupal_get_path('module', 'iconomist') . '/tests/apple-touch-icon.png',
+      'iconomist_icons[0][width]' => '57',
+      'iconomist_icons[0][height]' => '57',
+      'iconomist_icons[0][rel]' => 'apple-touch-icon',
+      'files[iconomist_icons_1_upload]' => drupal_get_path('module', 'iconomist') . '/tests/apple-touch-icon-precomposed.png',
+      'iconomist_icons[1][rel]' => 'apple-touch-icon-precomposed',
+    );
+    $this->drupalPost(NULL, $edit, t('Save configuration'));
+
+    // Assert settings were saved.
+    $this->assertFieldByName('iconomist_icons[0][path]', 'public://iconomist/apple-touch-icon.png');
+    $this->assertFieldByName('iconomist_icons[0][width]', '57');
+    $this->assertFieldByName('iconomist_icons[0][height]', '57');
+    $this->assertFieldByName('iconomist_icons[0][rel]', 'apple-touch-icon');
+    $this->assertFieldByName('iconomist_icons[1][path]', 'public://iconomist/apple-touch-icon-precomposed.png');
+    $this->assertFieldByName('iconomist_icons[1][rel]', 'apple-touch-icon-precomposed');
+
+    // Assert icons are included in page output.
+    $icon_path = file_create_url('public://iconomist/apple-touch-icon.png');
+    $this->assertRaw('<link rel="apple-touch-icon" href="' . $icon_path . '" type="image/png" sizes="57x57" />', 'Apple touch icon found.');
+    $icon_path = file_create_url('public://iconomist/apple-touch-icon-precomposed.png');
+    $this->assertRaw('<link rel="apple-touch-icon-precomposed" href="' . $icon_path . '" type="image/png" />', 'Apple touch icon found.');
+  }
+
+}
