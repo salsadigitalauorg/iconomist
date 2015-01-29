@@ -68,9 +68,17 @@ class IconomistTestCase extends DrupalWebTestCase {
 
     // Assert icons are included in page output.
     $icon_path = file_create_url('public://iconomist/apple-touch-icon.png');
-    $this->assertRaw('<link rel="apple-touch-icon" href="' . $icon_path . '" type="image/png" sizes="57x57" />', 'Apple touch icon found.');
-    $icon_path = file_create_url('public://iconomist/apple-touch-icon-precomposed.png');
-    $this->assertRaw('<link rel="apple-touch-icon-precomposed" href="' . $icon_path . '" type="image/png" />', 'Apple touch icon found.');
+    $icon_html = '<link rel="apple-touch-icon" href="' . $icon_path . '" type="image/png" sizes="57x57" />';
+    $this->assertRaw($icon_html, 'Apple touch icon found.');
+    $precomposed_icon_path = file_create_url('public://iconomist/apple-touch-icon-precomposed.png');
+    $precomposed_html = '<link rel="apple-touch-icon-precomposed" href="' . $precomposed_icon_path . '" type="image/png" />';
+    $this->assertRaw($precomposed_html, 'Apple precomposed touch icon found.');
+
+    // Toggle icons off.
+    $this->drupalPost(NULL, array('toggle_iconomist' => '1'), t('Save configuration'));
+    $this->assertNoRaw($icon_html, 'Apple touch icon not found.');
+    $this->assertNoRaw($precomposed_html, 'Apple precomposed touch icon not found.');
+
   }
 
 }
