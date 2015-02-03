@@ -22,7 +22,7 @@ function _iconomist_remove_settings($variable_name) {
     }
   }
   unset($theme_settings['iconomist_icons']);
-  unset($theme_settings['toggle_iconomist']);
+  unset($theme_settings['iconomist_toggle']);
   variable_set($variable_name, $theme_settings);
 }
 

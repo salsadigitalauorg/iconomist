@@ -75,7 +75,7 @@ class IconomistTestCase extends DrupalWebTestCase {
     $this->assertRaw($precomposed_html, 'Apple precomposed touch icon found.');
 
     // Toggle icons off.
-    $this->drupalPost(NULL, array('toggle_iconomist' => '1'), t('Save configuration'));
+    $this->drupalPost(NULL, array('iconomist_toggle' => '1'), t('Save configuration'));
     $this->assertNoRaw($icon_html, 'Apple touch icon not found.');
     $this->assertNoRaw($precomposed_html, 'Apple precomposed touch icon not found.');
 

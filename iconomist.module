@@ -38,10 +38,10 @@ function iconomist_form_system_theme_settings_alter(&$form, &$form_state) {
   $form_state['storage']['iconomist_num_icons'] = max($form_state['storage']['iconomist_num_icons'], 1);
 
   // Display toggles.
-  $form['theme_settings']['toggle_iconomist'] = array(
+  $form['theme_settings']['iconomist_toggle'] = array(
     '#type' => 'checkbox',
     '#title' => t('Iconomist Icons'),
-    '#default_value' => theme_get_setting('toggle_iconomist', $theme),
+    '#default_value' => theme_get_setting('iconomist_toggle', $theme),
   );
 
   // Iconomist fieldset.
@@ -342,7 +342,7 @@ function _iconomist_settings_submit($form, &$form_state) {
  * Implements hook_preprocess_html().
  */
 function iconomist_preprocess_html(&$vars) {
-  $toggle = theme_get_setting('toggle_iconomist');
+  $toggle = theme_get_setting('iconomist_toggle');
   $icons = theme_get_setting('iconomist_icons');
   if ($toggle || empty($icons)) {
     // Do nothing if iconomist is toggled off or no icons.
