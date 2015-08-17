@@ -5,6 +5,9 @@
  * Test Iconomist.
  */
 
+/**
+ * Test cases for Iconomist module.
+ */
 class IconomistTestCase extends DrupalWebTestCase {
 
   /**
